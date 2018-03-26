@@ -2,13 +2,19 @@
   "name": "cannes_poll",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serve": "node server.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.16.3"
+    "ejs": "^2.5.8",
+    "express": "^4.16.3",
+    "express-pug": "^1.0.0",
+    "html": "^1.0.0",
+    "path": "^0.12.7",
+    "pug": "^2.0.3"
   }
 }
