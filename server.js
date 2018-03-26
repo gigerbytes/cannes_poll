@@ -17,7 +17,7 @@ app.get('/', (req, res) => res.send('Hello World!'))
 // Accept form (form with data posted to express app)
 app.post('/vote', function(req, res){
     console.log(req.body)
-    // res.send(200)
+    res.send(200)
 })
 // Send result to deploy client (view over here)
 app.get('/poll', (req, res) => res.render("poll"))

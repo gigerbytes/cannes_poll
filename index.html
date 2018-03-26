@@ -14,7 +14,9 @@
         <div class="container">
             <h1>Club Voting</h1>
             <hr>
-        <form class="form" action="http://localhost:3000/vote" method="post">
+        <form class="form" action="http://localhost:3000/vote" method="post" id="voteForm">
+            <label for="code">Code</label>
+            <input type="text" name="code" value="">
 
             <fieldset id="group1" class="form-group">
                 <div class="row vote-block">
@@ -69,5 +71,29 @@
              <button type="submit" class="btn btn-primary">Submit</button>
         </form>
         </div>
+        <div class="row">
+            <div id="flash">
+
+            </div>
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script type="text/javascript">
+            $(function() {
+                var form = $('#voteForm');
+                var flash = $('#flash');
+
+                $(form).submit(function(event){
+                    event.preventDefault();
+                    var formData = $(form).serialize();
+                    $.ajax({
+                        type:'POST',
+                        url:$(form).attr('action'),
+                        data:formData
+                    }).done(function(response){
+                        console.log(response)
+                    })
+                })
+            })
+        </script>
     </body>
 </html>
