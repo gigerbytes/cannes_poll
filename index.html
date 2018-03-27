@@ -18,7 +18,7 @@
             <label for="code">Code</label>
             <input type="text" name="code" value="">
 
-            <fieldset id="group1" class="form-group">
+            <fieldset id="group1" class="form-group col-md-12">
                 <div class="row vote-block">
                     <div class="col-md-4">
                     <input type="radio" id="PIECES" value="PIECES" name="group1">
@@ -35,7 +35,7 @@
                 </div>
             </fieldset>
 
-            <fieldset id="group2" class="form-group">
+            <fieldset id="group2" class="form-group col-md-12">
                 <div class="row vote-block">
                     <div class="col-md-4">
                     <input type="radio" id="Orchestra" value="Orchestra" name="group2">
@@ -52,7 +52,7 @@
                 </div>
             </fieldset>
 
-            <fieldset id="group3" class="form-group">
+            <fieldset id="group3" class="form-group col-md-12">
                 <div class="row vote-block">
                     <div class="col-md-4">
                     <input type="radio" id="Student_Impact" value="Student_Impact" name="group3">
@@ -68,13 +68,17 @@
                     </div>
                 </div>
             </fieldset>
-             <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
-        </div>
         <div class="row">
-            <div id="flash">
+            <button type="submit" class="btn btn-primary col-lg-2">Submit</button>
+            <button type="reset" class="btn btn-danger col-lg-2">Reset</button>
+         </div>
+     </div>
+        </form>
+        <div class="row">
+            <div id="flash" class="col-md-6">
 
             </div>
+        </div>
         </div>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script type="text/javascript">
@@ -88,7 +92,13 @@
                     $.ajax({
                         type:'POST',
                         url:$(form).attr('action'),
-                        data:formData
+                        data:formData,
+                        success: function(res){
+                            if(res == "success"){
+                                $("#flash").html("Success")
+                                $("#flash").addClass("alert alert-success")
+                            }
+                        }
                     }).done(function(response){
                         console.log(response)
                     })
