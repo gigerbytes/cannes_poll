@@ -40,7 +40,12 @@ app.post('/vote', function(req, res){
     res.send("voted")
 })
 // Send result to deploy client (view over here)
-app.get('/poll', (req, res) => res.render("poll"))
+app.get('/poll', function(req, res){
+    // r.table('vote').group('group1').count();
+    // r.table('vote').group('group2').count();
+    // r.table('vote').group('group3').count();
+    res.render("poll")
+})
 
 app.get('/poll-update', function(req, res){
 
