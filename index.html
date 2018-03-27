@@ -72,12 +72,12 @@
             <button type="submit" class="btn btn-primary col-lg-2">Submit</button>
             <button type="reset" class="btn btn-danger col-lg-2">Reset</button>
          </div>
-     </div>
         </form>
         <div class="row">
-            <div id="flash" class="col-md-6">
+            <div id="flash" class="col-sm-12 col-md-6-offset-3">
 
             </div>
+        </div>
         </div>
         </div>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -95,10 +95,18 @@
                         data:formData,
                         success: function(res){
                             if(res == "success"){
-                                $("#flash").html("Success")
+                                $("#flash").html("Your vote has been counted")
                                 $("#flash").addClass("alert alert-success")
+                            } else if(res == "voted"){
+                                $("#flash").html("You already voted :<")
+                                $("#flash").addClass("alert alert-danger")
+                            } else {
+                                $("#flash").html("Error, please try again")
+                                $("#flash").addClass("alert alert-danger")
                             }
+                            $(form).trigger("reset");
                         }
+
                     }).done(function(response){
                         console.log(response)
                     })
