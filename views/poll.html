@@ -33,5 +33,16 @@
         <h3>CHARTS HERE</h3>
         <div id="chartContainer" style="height: 300px; width: 100%;"></div>
     <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+     <script type="text/javascript" src="/public/socket.io.js"></script>
+    <script type="text/javascript">
+        $(function() {
+            var socket = io()
+            socket.on('vote', function(vote){
+                // rerender chart
+            })
+        })
+
+    </script>
     </body>
 </html>
