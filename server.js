@@ -37,7 +37,14 @@ r.connect({db:"test"}).then(function(conn){
     })
 
     r.table('vote').changes().run(conn, function(err, cursor){
+        console.log('run')
         // io.emit("vote", item)
+            cursor.each(function(err, item) {
+                console.log("item")
+          if (err) // throw here too
+          console.log(item)
+          io.emit('vote', item);
+      })
     })
 })
 
@@ -47,16 +54,11 @@ r.connect({db:"test"}).then(function(conn){
 app.post('/vote', function(req, res){
     console.log(req.body)
 
-    code = req.body.code
-    group1 = req.body.group1
-    group2 = req.body.group2
-    group3 = req.body.group3
-
     datObj = {
         'code' : req.body.code,
         'PIECES' : 0,
         'Unigay' : 0,
-        'MUN':0,
+        'MUN': 0,
         'Orchestra':0,
         'Chess_Club':0,
         'Student_Theater':0,
