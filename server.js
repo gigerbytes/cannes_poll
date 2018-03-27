@@ -24,19 +24,52 @@ app.get('/', function(req, res) {
 })
 // db connection, no frontend, only respons
 io.on('connection', function(socket){
-  console.log('a user connected');
-  socket.on('disconnect', function(){
-    console.log('user disconnected');
+  socket.on('vote', function(msg){
+    io.emit('chat message', msg);
   });
 });
-    
+
+/// initialize
+
+r.connect({db:"test"}).then(function(conn){
+    r.db('test').tableCreate('vote').run(conn, function(){
+        console.log('hello')
+    })
+
+    r.table('vote').changes().run(conn, function(err, cursor){
+        // io.emit("vote", item)
+    })
+})
 
 // 2 actions
 
 // Accept form (form with data posted to express app)
 app.post('/vote', function(req, res){
     console.log(req.body)
-    rdb.save('vote',req.body)
+
+    code = req.body.code
+    group1 = req.body.group1
+    group2 = req.body.group2
+    group3 = req.body.group3
+
+    datObj = {
+        'code' : req.body.code,
+        'PIECES' : 0,
+        'Unigay' : 0,
+        'MUN':0,
+        'Orchestra':0,
+        'Chess_Club':0,
+        'Student_Theater':0,
+        'Student_Impact':0,
+        'IGNITE':0,
+        'Oikos':0
+    }
+
+    datObj[req.body.group1] = 1
+    datObj[req.body.group2] = 1
+    datObj[req.body.group3] =1
+
+    rdb.save('vote',datObj)
     res.send("voted")
 })
 // Send result to deploy client (view over here)
