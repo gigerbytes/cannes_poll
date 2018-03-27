@@ -3,9 +3,35 @@
     <head>
         <meta charset="utf-8">
         <title>Current poll</title>
+        <script>
+        window.onload = function() {
+
+            var chart = new CanvasJS.Chart("chartContainer", {
+            	animationEnabled: true,
+            	title: {
+            		text: "GROUP 3"
+            	},
+            	data: [{
+            		type: "pie",
+            		startAngle: 240,
+            		yValueFormatString: "##0.00\"%\"",
+            		indexLabel: "{label} {y}",
+            		dataPoints: [
+            			{y: 33.33, label: "IGNITE"},
+            			{y: 33.33, label: "Oikos"},
+            			{y: 33.33, label: "Student Impact"},
+            		]
+            	}]
+            });
+            chart.render();
+        }
+</script>
     </head>
     <body>
         <h1>Current Poll</h1>
 
+        <h3>CHARTS HERE</h3>
+        <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
     </body>
 </html>
