@@ -2,6 +2,8 @@ const express = require('express')
 const path = require('path')
 const bodyParser = require('body-parser')
 const cors = require('cors')
+var async = require('async');
+
 
 const app = express()
 const http = require('http').Server(app)
@@ -13,6 +15,7 @@ var rdb = require("./lib/rethink")
 // view engine setup
 // app.set('views', path.join(__dirname, 'views'))
 app.use("/public", express.static(__dirname + "/public"));
+
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
 app.use(cors({credentials: true, origin: true}))
@@ -69,24 +72,7 @@ app.post('/vote', function(req, res){
 
     datObj[req.body.group1] = 1
     datObj[req.body.group2] = 1
-    datObj[req.body.group3] =1
-    // r.connect({db:"cannes"}).then(function(conn){
-    // r.table("records").insert( datObj ).run( conn, function(error, result) {
-    //     console.log(error)
-    //     console.log(result)
-    //     if (error) {
-    //         res.send("error")
-    //         // return handleError(error);
-    //     }
-    //     else if (result.errors > 0) {
-    //          res.send("voted")
-    //     } else {
-    //         res.send("success")
-    //     }
-    //     // doThings(result.new_val);
-    //     })
-    //
-    // })
+    datObj[req.body.group3] = 1
 
     voted = rdb.save("records",datObj).then(function(record){
         console.log(record.errors)
@@ -103,7 +89,101 @@ app.get('/poll', function(req, res){
     // r.table('vote').group('group1').count();
     // r.table('vote').group('group2').count();
     // r.table('vote').group('group3').count();
-    res.render("poll")
+
+    r.connect({db:"cannes"}).then(function(conn){
+        var list = ['PIECES', 'Unigay','MUN']
+
+        var stack = {}
+        stack.PIECES = function(cb) {
+            r.table('records').filter({'PIECES' : 1}).count().run(conn, function(err, count){
+                console.log(count)
+                cb(null, count)
+            })
+        }
+        stack.Unigay = function(cb) {
+            r.table('records').filter({'Unigay' : 1}).count().run(conn, function(err, count){
+                console.log(count)
+                cb(null, count)
+            })
+        }
+        stack.MUN = function(cb) {
+            r.table('records').filter({'MUN' : 1}).count().run(conn, function(err, count){
+                console.log(count)
+                cb(null, count)
+            })
+        }
+        stack.Oikos = function(cb) {
+            r.table('records').filter({'Oikos' : 1}).count().run(conn, function(err, count){
+                console.log(count)
+                cb(null, count)
+            })
+        }
+        stack.Chess_Club = function(cb) {
+            r.table('records').filter({'Chess_Club' : 1}).count().run(conn, function(err, count){
+                console.log(count)
+                cb(null, count)
+            })
+        }
+        stack.Orchestra = function(cb) {
+            r.table('records').filter({'Orchestra' : 1}).count().run(conn, function(err, count){
+                console.log(count)
+                cb(null, count)
+            })
+        }
+        stack.Student_Theater = function(cb) {
+            r.table('records').filter({'Student_Theater' : 1}).count().run(conn, function(err, count){
+                console.log(count)
+                cb(null, count)
+            })
+        }
+
+        stack.Oikos = function(cb) {
+            r.table('records').filter({'Oikos' : 1}).count().run(conn, function(err, count){
+                console.log(count)
+                cb(null, count)
+            })
+        }
+        stack.IGNITE = function(cb) {
+            r.table('records').filter({'IGNITE' : 1}).count().run(conn, function(err, count){
+                console.log(count)
+                cb(null, count)
+            })
+        }
+        stack.Student_Impact = function(cb) {
+            r.table('records').filter({'Student_Impact' : 1}).count().run(conn, function(err, count){
+                console.log(count)
+                cb(null, count)
+            })
+        }
+
+        async.parallel(stack, function(err, results){
+            if(err){
+                console.log(err)
+            }
+            var pollData = {
+                'group1' : [
+                    {label :'PIECES', y: results.PIECES},
+                    {label :'Unigay', y:results.Unigay},
+                    {label :'MUN', y: results.MUN},
+                ],
+                'group2': [
+                    {label:'Chess_Club', y: results.Chess_Club},
+                    {label:'Orchestra', y: results.Orchestra},
+                    {label:'Student_Theater', y: results.Student_Theater},
+                ],
+                'group3': [
+                    {label: 'Oikos', y: results.Oikos},
+                    {label: 'IGNITE', y: results.IGNITE},
+                    {label: 'Student_Impact', y:results.Student_Impact},
+                ]
+            };
+            console.log(results)
+            console.log(pollData)
+            res.render("poll", {pollData: pollData})
+
+        })
+
+    })
 })
 
 app.get('/poll-update', function(req, res){
