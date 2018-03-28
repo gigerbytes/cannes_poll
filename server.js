@@ -1,3 +1,4 @@
+const fs = require('fs')
 const express = require('express')
 const path = require('path')
 const bodyParser = require('body-parser')
@@ -6,11 +7,12 @@ var async = require('async');
 
 
 const app = express()
-const http = require('http').Server(app)
+const http = require('http')
+const https = require('https')
 const io = require('socket.io')(http)
 var r = require('rethinkdb')
 var rdb = require("./lib/rethink")
-
+'use strict';
 
 // view engine setup
 // app.set('views', path.join(__dirname, 'views'))
@@ -194,4 +196,11 @@ app.get('/poll-update', function(req, res){
 
 })
 
-http.listen(3000, () => console.log('Example app listening on port 3000!'))
+
+var ssl = {
+  key:  fs.readFileSync('/etc/letsencrypt/live/awards.shsg.ch/privkey.pem'),
+  cert: fs.readFileSync('/etc/letsencrypt/live/awards.shsg.ch/cert.pem'),
+  ca: fs.readFileSync('/etc/letsencrypt/live/awards.shsg.ch/fullchain.pem')
+}
+http.createServer(app).listen(80)
+https.createServer(ssl,app).listen(443)
