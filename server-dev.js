@@ -5,16 +5,9 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 var async = require('async');
 
-var ssl = {
-  key:  fs.readFileSync('/etc/letsencrypt/live/awards.shsg.ch/privkey.pem'),
-  cert: fs.readFileSync('/etc/letsencrypt/live/awards.shsg.ch/cert.pem'),
-  ca: fs.readFileSync('/etc/letsencrypt/live/awards.shsg.ch/fullchain.pem')
-}
-
 const app = express()
 const http = require('http').Server(app)
-const https = require('https').Server(ssl, app)
-const io = require('socket.io')(https)
+const io = require('socket.io')(http)
 var r = require('rethinkdb')
 var rdb = require("./lib/rethink")
 'use strict';
@@ -36,7 +29,7 @@ app.get('/', function(req, res) {
 r.connect({db:"cannes"}).then(function(conn){
     r.table('records').changes().run(conn, function(err, cursor){
         cursor.each(function(err, item) {
-          if (err) { res.send('error')} // throw here too
+          if (err) { res.send(500)} // throw here too
           io.emit('vote', item);
       })
     })
@@ -78,6 +71,7 @@ app.post('/vote', function(req, res){
 })
 // Send result to deploy client (view over here)
 app.get('/poll', function(req, res){
+
     r.connect({db:"cannes"}).then(function(conn){
         var stack = {}
         stack.PIECES = function(cb) {
@@ -153,6 +147,8 @@ app.get('/poll', function(req, res){
                     {label: 'Student_Impact', y:results.Student_Impact},
                 ]
             };
+            console.log(results)
+            console.log(pollData)
             res.render("poll", {pollData: pollData})
 
         })
@@ -164,5 +160,4 @@ app.get('/poll-update', function(req, res){
 
 })
 
-http.listen(80)
-https.listen(443)
+http.listen(3000)

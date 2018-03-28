@@ -106,6 +106,12 @@
                                     $('#flash').removeClass('alert-success')
                                 }
                                 $("#flash").addClass("alert alert-danger")
+                            } else if(res="wrongcode") {
+                                $("#flash").html("Invalid code, please try again")
+                                if($('#flash').hasClass('alert-success')){
+                                    $('#flash').removeClass('alert-success')
+                                }
+                                $("#flash").addClass("alert alert-danger")
                             } else {
                                 $("#flash").html("Error, please try again")
                                 if($('#flash').hasClass('alert-success')){
