@@ -8,14 +8,47 @@
         <h1>Current Poll</h1>
 
         <h3>CHARTS HERE</h3>
-        <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+        
+        <div id="chartContainer1" style="height: 300px; width: 30%;"></div>
+        <div id="chartContainer2" style="height: 300px; width: 30%;"></div>
+        <div id="chartContainer3" style="height: 300px; width: 30%;"></div>
     <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
      <script type="text/javascript" src="/public/socket.io.js"></script>
     <script type="text/javascript">
     window.onload = function() {
         var pollData = JSON.parse('<%- JSON.stringify(pollData) %>')
-        var chart = new CanvasJS.Chart("chartContainer", {
+        var chart1 = new CanvasJS.Chart("chartContainer1", {
+            animationEnabled: true,
+            title: {
+                text: "GROUP 1"
+            },
+            data: [{
+                type: "pie",
+                startAngle: 240,
+                // yValueFormatString: "##0.00\"%\"",
+                indexLabel: "{label} ",
+                dataPoints: pollData.group1
+            }]
+        });
+        chart1.render();
+
+        var chart2 = new CanvasJS.Chart("chartContainer2", {
+            animationEnabled: true,
+            title: {
+                text: "GROUP 2"
+            },
+            data: [{
+                type: "pie",
+                startAngle: 240,
+                // yValueFormatString: "##0.00\"%\"",
+                indexLabel: "{label} ",
+                dataPoints: pollData.group2
+            }]
+        });
+        chart2.render();
+
+        var chart3 = new CanvasJS.Chart("chartContainer3", {
             animationEnabled: true,
             title: {
                 text: "GROUP 3"
@@ -28,7 +61,7 @@
                 dataPoints: pollData.group3
             }]
         });
-        chart.render();
+        chart3.render();
 
         // $(function() {
             var socket = io()
@@ -36,7 +69,7 @@
                 console.log(vote)
                 // rerender chart
                 var dataPoints = chart.data[0].dataPoints
-                chart.options.data[0].dataPoints = [
+                chart3.options.data[0].dataPoints = [
                     {y: dataPoints[0].y + vote.new_val.IGNITE, label:"IGNITE" },
                     {y: dataPoints[1].y + vote.new_val.Oikos, label:"Oikos" },
                     {y: dataPoints[2].y + vote.new_val.Student_Impact, label:"Student_Impact" }
