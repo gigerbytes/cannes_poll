@@ -15,28 +15,32 @@
             <h1>Club Voting</h1>
             <hr>
         <form class="form" action="/vote" method="post" id="voteForm">
-            <label for="code">Code</label>
-            <input type="text" class="form-control number"  onkeyup="this.value=this.value.replace(/[^\d].*/,'')"  name="code" maxlength="6" value="" placeholder="289XXX">
-
-            <fieldset id="group1" class="form-group col-md-12">
-                <div class="row vote-block">
-                    <div class="col-md-4">
+            <div>
+                <label for="code" class="label col-xs-3">Code</label>
+                <input type="text" class="form-control number col-xs-6 col-sm-6"  onkeyup="this.value=this.value.replace(/[^\d].*/,'')"  name="code" maxlength="6" value="" placeholder="289XXX">
+            </div>
+            <br>
+            <!-- <div class="row"> -->
+            <fieldset id="group1" class="form-group col-xs-12 col-md-12 border border-primary rounded">
+                <!-- <div class="border-primary rounded"> -->
+                    <div class="col-sm-3">
                     <input type="radio" id="PIECES" value="PIECES" name="group1">
                     <label for="PIECES">PIECES</label>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-sm-3">
                     <input type="radio" id="Unigay"value="Unigay" name="group1">
                     <label for="Unigay">Unigay</label>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-sm-3">
                     <input type="radio" id="MUN" value="MUN" name="group1">
                     <label for="MUN">MUN</label>
-                    </div>
+                    <!-- </div> -->
                 </div>
             </fieldset>
+        <!-- </div> -->
 
-            <fieldset id="group2" class="form-group col-md-12">
-                <div class="row vote-block">
+            <fieldset id="group2" class="form-group col-md-12 border border-success rounded">
+                <!-- <div class="row vote-block"> -->
                     <div class="col-md-4">
                     <input type="radio" id="Orchestra" value="Orchestra" name="group2">
                     <label for="Orchestra">Orchestra</label>
@@ -49,11 +53,11 @@
                     <input type="radio" id="Student_Theater" value="Student_Theater" name="group2">
                     <label for="Student_Theater">Student Theater</label>
                     </div>
-                </div>
+                <!-- </div> -->
             </fieldset>
 
-            <fieldset id="group3" class="form-group col-md-12">
-                <div class="row vote-block">
+            <fieldset id="group3" class="form-group col-md-12 border border-danger rounded">
+                <!-- <div class="row vote-block"> -->
                     <div class="col-md-4">
                     <input type="radio" id="Student_Impact" value="Student_Impact" name="group3">
                     <label for="Student_Impact">Student Impact</label>
@@ -66,7 +70,7 @@
                     <input type="radio" id="Oikos" value="Oikos" name="group3">
                     <label for="Oikos">Oikos</label>
                     </div>
-                </div>
+                <!-- </div> -->
             </fieldset>
         <div class="row">
             <button type="submit" class="btn btn-primary col-lg-2">Submit</button>
