@@ -5,11 +5,16 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 var async = require('async');
 
+var ssl = {
+  key:  fs.readFileSync('/etc/letsencrypt/live/awards.shsg.ch/privkey.pem'),
+  cert: fs.readFileSync('/etc/letsencrypt/live/awards.shsg.ch/cert.pem'),
+  ca: fs.readFileSync('/etc/letsencrypt/live/awards.shsg.ch/fullchain.pem')
+}
 
 const app = express()
-const http = require('http')
-const https = require('https')
-const io = require('socket.io')(http)
+const http = require('http').Server(app)
+const https = require('https').Server(ssl, app)
+const io = require('socket.io')(https)
 var r = require('rethinkdb')
 var rdb = require("./lib/rethink")
 'use strict';
@@ -202,5 +207,5 @@ var ssl = {
   cert: fs.readFileSync('/etc/letsencrypt/live/awards.shsg.ch/cert.pem'),
   ca: fs.readFileSync('/etc/letsencrypt/live/awards.shsg.ch/fullchain.pem')
 }
-http.createServer(app).listen(80)
-https.createServer(ssl,app).listen(443)
+http.listen(80)
+https.listen(443)
