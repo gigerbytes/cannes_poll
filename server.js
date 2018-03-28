@@ -46,7 +46,7 @@ r.connect({db:"cannes"}).then(function(conn){
 
 // Accept form (form with data posted to express app)
 app.post('/vote', function(req, res){
-    if(req.body.code < 100000 || req.body.code > 1000000) { // check code is within 6 digits
+    if(req.body.code < 100000 || req.body.code > 999999) { // check code is within 6 digits
         res.send('wrongcode')
     } else {
 
