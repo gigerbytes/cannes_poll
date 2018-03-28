@@ -96,12 +96,21 @@
                         success: function(res){
                             if(res == "success"){
                                 $("#flash").html("Your vote has been counted")
+                                if($('#flash').hasClass('alert-danger')){
+                                    $('#flash').removeClass('alert-danger')
+                                }
                                 $("#flash").addClass("alert alert-success")
                             } else if(res == "voted"){
                                 $("#flash").html("You already voted :<")
+                                if($('#flash').hasClass('alert-success')){
+                                    $('#flash').removeClass('alert-success')
+                                }
                                 $("#flash").addClass("alert alert-danger")
                             } else {
                                 $("#flash").html("Error, please try again")
+                                if($('#flash').hasClass('alert-success')){
+                                    $('#flash').removeClass('alert-success')
+                                }
                                 $("#flash").addClass("alert alert-danger")
                             }
                             $(form).trigger("reset");

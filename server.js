@@ -31,12 +31,12 @@ io.on('connection', function(socket){
 
 /// initialize
 
-r.connect({db:"test"}).then(function(conn){
-    r.db('test').tableCreate('vote').run(conn, function(){
+r.connect({db:"cannes"}).then(function(conn){
+    r.db('cannes').tableCreate('records').run(conn, function(){
         console.log('hello')
     })
 
-    r.table('vote').changes().run(conn, function(err, cursor){
+    r.table('records').changes().run(conn, function(err, cursor){
         console.log('run')
         // io.emit("vote", item)
             cursor.each(function(err, item) {
@@ -70,9 +70,33 @@ app.post('/vote', function(req, res){
     datObj[req.body.group1] = 1
     datObj[req.body.group2] = 1
     datObj[req.body.group3] =1
+    // r.connect({db:"cannes"}).then(function(conn){
+    // r.table("records").insert( datObj ).run( conn, function(error, result) {
+    //     console.log(error)
+    //     console.log(result)
+    //     if (error) {
+    //         res.send("error")
+    //         // return handleError(error);
+    //     }
+    //     else if (result.errors > 0) {
+    //          res.send("voted")
+    //     } else {
+    //         res.send("success")
+    //     }
+    //     // doThings(result.new_val);
+    //     })
+    //
+    // })
 
-    rdb.save('vote',datObj)
-    res.send("voted")
+    voted = rdb.save("records",datObj).then(function(record){
+        console.log(record.errors)
+        console.log(record.errrors)
+        if(record.errors == 0) {
+            res.send("success")
+        } else {
+            res.send("voted")
+        }
+    })
 })
 // Send result to deploy client (view over here)
 app.get('/poll', function(req, res){
