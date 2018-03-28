@@ -8,7 +8,7 @@
         <h1>Current Poll</h1>
 
         <h3>CHARTS HERE</h3>
-        
+
         <div id="chartContainer1" style="height: 300px; width: 30%;"></div>
         <div id="chartContainer2" style="height: 300px; width: 30%;"></div>
         <div id="chartContainer3" style="height: 300px; width: 30%;"></div>
@@ -68,14 +68,28 @@
             socket.on('vote', function(vote){
                 console.log(vote)
                 // rerender chart
-                var dataPoints = chart.data[0].dataPoints
-                chart3.options.data[0].dataPoints = [
-                    {y: dataPoints[0].y + vote.new_val.IGNITE, label:"IGNITE" },
-                    {y: dataPoints[1].y + vote.new_val.Oikos, label:"Oikos" },
-                    {y: dataPoints[2].y + vote.new_val.Student_Impact, label:"Student_Impact" }
+                var dataPoints1 = chart1.data[0].dataPoints
+                var dataPoints2 = chart2.data[0].dataPoints
+                var dataPoints3 = chart3.data[0].dataPoints
+                chart1.options.data[0].dataPoints = [
+                    {y: dataPoints1[0].y + vote.new_val.PIECES, label:"PIECES" },
+                    {y: dataPoints1[1].y + vote.new_val.Unigay, label:"Unigay" },
+                    {y: dataPoints1[2].y + vote.new_val.MUN, label:"MUN" }
                 ]
-                chart.render()
-                console.log(chart.options.data)
+                chart2.options.data[0].dataPoints = [
+                    {y: dataPoints2[0].y + vote.new_val.Chess_Club, label:"Chess_Club" },
+                    {y: dataPoints2[1].y + vote.new_val.Orchestra, label:"Orchestra" },
+                    {y: dataPoints2[2].y + vote.new_val.Student_Theater, label:"Student_Theater" }
+                ]
+                chart3.options.data[0].dataPoints = [
+                    {y: dataPoints3[0].y + vote.new_val.IGNITE, label:"IGNITE" },
+                    {y: dataPoints3[1].y + vote.new_val.Oikos, label:"Oikos" },
+                    {y: dataPoints3[2].y + vote.new_val.Student_Impact, label:"Student_Impact" }
+                ]
+                chart1.render()
+                chart2.render()
+                chart3.render()
+                // console.log(chart.options.data)
                 console.log(vote)
             })
         // })

@@ -26,12 +26,16 @@ app.get('/', function(req, res) {
     res.sendFile(__dirname + '/views/index.html')
 })
 // db connection, no frontend, only respons
-io.on('connection', function(socket){
-  socket.on('vote', function(msg){
-    io.emit('chat message', msg);
-  });
-});
-
+r.table('records').changes().run(conn, function(err, cursor){
+        console.log('run')
+    // io.emit("vote", item)	         // io.emit("vote", item)
+            cursor.each(function(err, item) {
+                console.log("item")
+          if (err) // throw here too
+          console.log(item)
+          io.emit('vote', item);
+      })
+})
 /// initialize
 
 r.connect({db:"cannes"}).then(function(conn){
